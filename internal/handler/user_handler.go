@@ -5,7 +5,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/fadilAndrian/go-auth/internal/user"
+	"github.com/fadilAndrian/go-commerce/internal/user"
 	"github.com/gin-gonic/gin"
 )
 

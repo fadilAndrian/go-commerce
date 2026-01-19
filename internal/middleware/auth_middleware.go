@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/fadilAndrian/go-auth/internal/helper"
+	"github.com/fadilAndrian/go-commerce/internal/helper"
 	"github.com/gin-gonic/gin"
 )
 

@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"errors"
 
-	"github.com/fadilAndrian/go-auth/internal/helper"
+	"github.com/fadilAndrian/go-commerce/internal/helper"
 )
 
 type UserService struct {
