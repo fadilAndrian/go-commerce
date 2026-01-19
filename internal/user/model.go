@@ -18,6 +18,6 @@ type RegisterUserRequest struct {
 }
 
 type LoginUserRequest struct {
-	Email    string `validate:"requirded,email"`
+	Email    string `validate:"required,email"`
 	Password string `validate:"required,min=6"`
 }
