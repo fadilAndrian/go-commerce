@@ -3,8 +3,10 @@ package handler
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"net/http"
 
+	"github.com/fadilAndrian/go-commerce/internal/helper"
 	"github.com/fadilAndrian/go-commerce/internal/user"
 	"github.com/gin-gonic/gin"
 )
@@ -27,6 +29,14 @@ func (handler *UserHandler) Register(c *gin.Context) {
 		return
 	}
 
+	if errors := helper.ValidateRequest(request); errors != nil {
+		fmt.Println(errors)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"err": errors,
+		})
+		return
+	}
+
 	if err := handler.service.Register(c.Request.Context(), request); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"err": "Failed to register, err: " + err.Error(),
@@ -45,6 +55,13 @@ func (handler *UserHandler) Login(c *gin.Context) {
 	if err := c.ShouldBindJSON(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"err": "Failed to parse request, err: " + err.Error(),
+		})
+		return
+	}
+
+	if errors := helper.ValidateRequest(request); errors != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"err": errors,
 		})
 		return
 	}
