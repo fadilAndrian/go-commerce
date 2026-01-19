@@ -7,6 +7,7 @@ import (
 
 	"github.com/fadilAndrian/go-commerce/internal/handler"
 	"github.com/fadilAndrian/go-commerce/internal/middleware"
+	"github.com/fadilAndrian/go-commerce/internal/product"
 	"github.com/fadilAndrian/go-commerce/internal/user"
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -29,6 +30,10 @@ func main() {
 	userService := user.NewUserService(userRepo)
 	userHandler := handler.NewUserHandler(userService)
 
+	productRepo := product.NewProductRepo(db)
+	productService := product.NewProductService(productRepo)
+	productHandler := handler.NewProductHandler(productService)
+
 	authMiddleware := middleware.NewAuth()
 
 	r.POST("/register", userHandler.Register)
@@ -36,8 +41,15 @@ func main() {
 
 	auth := r.Group("/auth")
 	auth.Use(authMiddleware)
-
 	auth.GET("/me", userHandler.Me)
+
+	product := r.Group("/products")
+	product.Use(authMiddleware)
+	product.GET("/", productHandler.List)
+	product.POST("/", productHandler.Create)
+	product.GET("/:id", productHandler.Show)
+	product.PUT("/:id", productHandler.Update)
+	product.DELETE("/:id", productHandler.Delete)
 
 	log.Fatal(r.Run(":8080"))
 }
