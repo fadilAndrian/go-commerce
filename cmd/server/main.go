@@ -5,9 +5,9 @@ import (
 	"log"
 	"os"
 
-	"github.com/fadilAndrian/go-auth/internal/handler"
-	"github.com/fadilAndrian/go-auth/internal/middleware"
-	"github.com/fadilAndrian/go-auth/internal/user"
+	"github.com/fadilAndrian/go-commerce/internal/handler"
+	"github.com/fadilAndrian/go-commerce/internal/middleware"
+	"github.com/fadilAndrian/go-commerce/internal/user"
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/joho/godotenv"
