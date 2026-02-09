@@ -18,3 +18,34 @@ CREATE TABLE IF NOT EXISTS products (
 );
 
 CREATE INDEX IF NOT EXISTS idx_products_name on products(name);
+
+CREATE TABLE IF NOT EXISTS orders (
+    id BIGSERIAL PRIMARY KEY,
+    ref TEXT UNIQUE NOT NULL,
+    total INTEGER NOT NULL CHECK (total >= 0),
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_orders_ref on orders(ref);
+
+CREATE TABLE IF NOT EXISTS order_items (
+    id BIGSERIAL PRIMARY KEY,
+    order_id BIGINT NOT NULL,
+    product_id BIGINT NOT NULL,
+    name TEXT NOT NULL,
+    price INTEGER NOT NULL CHECK (qty >= 0),
+    qty INTEGER NOT NULL CHECK (qty >= 0), 
+    total INTEGER NOT NULL CHECK (qty >= 0),
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+
+    CONSTRAINT fk_order 
+        FOREIGN KEY (order_id)
+        REFERENCES orders(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_product
+        FOREIGN KEY (product_id)
+        REFERENCES products(id)
+);
